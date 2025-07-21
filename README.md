@@ -4,120 +4,166 @@
 
 Arch-I-Tect is an AI-powered developer tool that lets you upload cloud architecture diagrams and receive fully generated Infrastructure-as-Code (IaC). It combines vision models, large language models, and an elegant frontend to help engineers go from whiteboard to deployment in seconds.
 
----
+## 🌟 Features
 
-## 🚀 Features
+- **Multi-Modal AI Analysis**: Upload architecture diagrams (screenshots, draw.io exports, whiteboard photos)
+- **IaC Generation**: Automatically generate Terraform HCL or AWS CloudFormation YAML
+- **Multiple LLM Support**: Use Ollama (local), OpenAI GPT-4 Vision, or Anthropic Claude 3
+- **Smart Resource Detection**: Identifies AWS/Azure/GCP resources from visual elements
+- **Code Validation**: Ensures generated code follows best practices
+- **Interactive UI**: Preview images, syntax-highlighted code output, and explanations
 
-- 🖼️ **Image Upload** – Upload architecture diagrams (screenshots, draw.io, whiteboard photos)
-- 🤖 **Multi-Modal AI Integration** – Analyze images and generate infrastructure definitions using LLMs (Ollama, GPT-4o, Claude)
-- 💻 **Code Output Viewer** – Syntax-highlighted IaC output with download/export support
-- 🔄 **Modular Backend** – Clean separation of LLMs, prompt management, and image preprocessing
-- ⚡ **Local + API Modes** – Use local Ollama models or cloud APIs interchangeably
-- 🌐 **Modern Frontend** – Built with React and Vite for fast, responsive UX
-
----
-
-## 📁 Project Structure
+## 🏗️ Architecture
 
 ```
-
 arch-i-tect/
-├── backend/
+├── backend/              # FastAPI backend
 │   ├── src/
-│   │   ├── api/                 # FastAPI routes & middleware
-│   │   ├── models/              # Abstract LLM & client interfaces
-│   │   ├── services/            # Core image + IaC generation logic
-│   │   ├── utils/               # Formatters and validation
-│   │   └── main.py              # Entry point
-│   ├── tests/                   # Unit tests (TBD)
-│   ├── requirements.txt
-│   └── .env.example
-├── frontend/
-│   ├── src/
-│   │   ├── components/          # UI components
-│   │   ├── services/            # Backend API client
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   ├── package.json
-│   └── vite.config.js
-└── README.md
+│   │   ├── api/         # HTTP endpoints
+│   │   ├── models/      # LLM client implementations
+│   │   ├── services/    # Business logic
+│   │   └── utils/       # Helpers and validators
+│   └── tests/
+├── frontend/            # React frontend
+│   └── src/
+│       ├── components/  # UI components
+│       └── services/    # API client
+└── docs/               # Documentation
+```
 
-````
+## 🚀 Quick Start
 
----
+### Prerequisites
 
-## 🧑‍💻 Setup Instructions
+- Python 3.11+
+- Node.js 18+
+- Ollama (optional, for local models)
 
-### 🐍 Backend (FastAPI)
+### Backend Setup
 
 ```bash
-cd arch-i-tect/backend
-python3 -m venv venv && source venv/bin/activate
+# Clone repository
+git clone https://github.com/yourusername/arch-i-tect.git
+cd arch-i-tect
+
+# Create virtual environment
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+cd backend
 pip install -r requirements.txt
-cp .env.example .env  # Update model settings and keys
-uvicorn src.main:app --reload
-````
 
-> ⚙️ Supports both local (`llava`, `bakllava`) and cloud-based (GPT-4o, Claude) models. Configure via `.env`.
+# Configure environment
+cp .env.example .env
+# Edit .env with your configuration
 
-### 🌐 Frontend (React + Vite)
+# Run backend
+python src/main.py
+```
+
+### Frontend Setup
 
 ```bash
-cd arch-i-tect/frontend
+# From project root
+cd frontend
+
+# Install dependencies
 npm install
+
+# Start development server
 npm run dev
 ```
 
-> App runs on `http://localhost:5173` and connects to backend on port `8000`.
+### Using Ollama (Local Models)
 
----
+```bash
+# Install Ollama
+curl -fsSL https://ollama.com/install.sh | sh
 
-## 🧠 LLMs & Prompts
+# Pull a vision model
+ollama pull llava
 
-* Multi-modal models are accessed via:
-
-  * `Ollama` (local): e.g. `llava`, `llava-phi`, `bakllava`
-  * `OpenAI` (API): GPT-4o with vision support
-  * `Anthropic` (API): Claude 3.5 Sonnet
-
-### Example Prompt Template
-
-```text
-You are a senior cloud architect. Analyze the given architecture diagram and generate Terraform (HCL) code to deploy the depicted AWS resources. Focus on EC2, S3, Lambda, VPCs, and Load Balancers.
+# Start Ollama server (if not already running)
+ollama serve
 ```
 
----
+## 📡 API Endpoints
 
-## 🛠 Roadmap
+- `POST /api/v1/upload` - Upload architecture diagram
+- `POST /api/v1/generate` - Generate IaC from uploaded diagram
+- `GET /api/v1/preview/{image_id}` - Get image preview
+- `GET /api/v1/status/{image_id}` - Check processing status
+- `GET /health` - Health check
 
-* [x] MVP upload + image-to-code flow
-* [ ] Image preprocessing (OCR, edge-enhance)
-* [ ] Real-time code generation with streaming feedback
-* [ ] Editable IaC output
-* [ ] Explainability mode ("Explain this architecture")
-* [ ] Support for Azure & GCP resource mappings
+## 🔧 Configuration
 
----
+### LLM Providers
+
+#### Ollama (Local)
+```env
+LLM_PROVIDER=ollama
+OLLAMA_BASE_URL=http://localhost:11434
+OLLAMA_MODEL=llava
+```
+
+#### OpenAI
+```env
+LLM_PROVIDER=openai
+OPENAI_API_KEY=your-key-here
+OPENAI_MODEL=gpt-4-vision-preview
+```
+
+#### Anthropic
+```env
+LLM_PROVIDER=anthropic
+ANTHROPIC_API_KEY=your-key-here
+ANTHROPIC_MODEL=claude-3-opus-20240229
+```
+
+## 🎯 Usage Example
+
+1. **Upload Diagram**: Drag and drop your architecture diagram
+2. **Select Format**: Choose Terraform or CloudFormation
+3. **Generate Code**: Click generate and wait for AI analysis
+4. **Review & Download**: Review the generated IaC and download
 
 ## 🧪 Testing
 
 ```bash
+# Run backend tests
 cd backend
-pytest tests/
+pytest
+
+# Run frontend tests
+cd frontend
+npm test
 ```
 
-> Add tests for prompt logic, model outputs, and image preprocessing.
+## 🤝 Contributing
 
----
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## 🧠 Why This Project
+## 📄 License
 
-This tool demonstrates how agentic systems and multi-modal LLMs can streamline infrastructure workflows. It’s a portfolio-ready, technically diverse application built for speed and clarity.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
----
+## 🙏 Acknowledgments
 
-## 📜 License
+- Ollama for local LLM support
+- OpenAI for GPT-4 Vision
+- Anthropic for Claude 3
+- FastAPI and React communities
 
-MIT License
+## 🚧 Roadmap
 
----
+- [ ] Support for more cloud providers (Azure, GCP)
+- [ ] Real-time collaboration features
+- [ ] Version control for generated IaC
+- [ ] Template library for common architectures
+- [ ] Export to multiple IaC formats simultaneously
+- [ ] Advanced validation and security scanning
