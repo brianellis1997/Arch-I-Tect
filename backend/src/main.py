@@ -4,6 +4,8 @@ Main FastAPI application entry point for Arch-I-Tect.
 This module initializes and configures the FastAPI application with all
 necessary middleware, routes, and exception handlers.
 """
+from dotenv import load_dotenv
+load_dotenv()
 
 import os
 from contextlib import asynccontextmanager
