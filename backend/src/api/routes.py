@@ -133,12 +133,12 @@ async def generate_code(request: Request, payload: GenerateCodeRequest) -> Gener
     """
     # Find the uploaded image
     upload_dir = Path("uploads")
-    image_files = list(upload_dir.glob(f"{request.image_id}_*"))
+    image_files = list(upload_dir.glob(f"{payload.image_id}_*"))
     
     if not image_files:
         raise HTTPException(
             status_code=404,
-            detail=f"Image with ID {request.image_id} not found"
+            detail=f"Image with ID {payload.image_id} not found"
         )
     
     image_path = image_files[0]
@@ -154,15 +154,15 @@ async def generate_code(request: Request, payload: GenerateCodeRequest) -> Gener
         # Generate code using the IaC generator service
         result = await iac_generator.generate_from_image(
             image_path=image_path,
-            output_format=request.output_format,
-            include_explanation=request.include_explanation
+            output_format=payload.output_format,
+            include_explanation=payload.include_explanation
         )
         
         return GenerateCodeResponse(
             code=result["code"],
             explanation=result.get("explanation"),
             detected_resources=result["detected_resources"],
-            format=request.output_format
+            format=payload.output_format
         )
         
     except ValueError as e:
