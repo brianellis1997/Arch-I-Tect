@@ -10,7 +10,7 @@ import uuid
 from pathlib import Path
 from typing import Optional
 
-from fastapi import APIRouter, File, UploadFile, HTTPException, BackgroundTasks
+from fastapi import APIRouter, File, UploadFile, HTTPException, BackgroundTasks, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 from loguru import logger
@@ -53,6 +53,7 @@ class UploadResponse(BaseModel):
 @router.post("/upload", response_model=UploadResponse)
 @limiter.limit("10/minute")
 async def upload_image(
+    request: Request,
     file: UploadFile = File(..., description="Image file to upload"),
     background_tasks: BackgroundTasks = BackgroundTasks()
 ) -> UploadResponse:
