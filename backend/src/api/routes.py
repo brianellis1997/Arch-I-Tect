@@ -118,7 +118,7 @@ async def upload_image(
 
 @router.post("/generate", response_model=GenerateCodeResponse)
 @limiter.limit("5/minute")
-async def generate_code(request: GenerateCodeRequest) -> GenerateCodeResponse:
+async def generate_code(request: Request, payload: GenerateCodeRequest) -> GenerateCodeResponse:
     """
     Generate Infrastructure as Code from an uploaded diagram.
     
@@ -144,7 +144,7 @@ async def generate_code(request: GenerateCodeRequest) -> GenerateCodeResponse:
     image_path = image_files[0]
     
     # Validate output format
-    if request.output_format not in ["terraform", "cloudformation"]:
+    if payload.output_format not in ["terraform", "cloudformation"]:
         raise HTTPException(
             status_code=400,
             detail="Invalid output format. Must be 'terraform' or 'cloudformation'"
