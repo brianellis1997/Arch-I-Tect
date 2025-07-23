@@ -203,6 +203,9 @@ npm run dev
 npm run build
 ```
 
+<img width="1317" height="944" alt="image" src="https://github.com/user-attachments/assets/404338eb-24a9-4a7e-b6c9-afc70adbd42c" />
+
+
 ## 🤝 Contributing
 
 1. Fork the repository
