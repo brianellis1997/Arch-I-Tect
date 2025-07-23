@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# Arch-I-Tect Setup Script
-# This script sets up the development environment for both backend and frontend
+# Arch-I-Tect Setup Script (Conda-aware version)
+# This script assumes it is being run inside an activated Conda environment.
 
 set -e
 
 echo "🚀 Setting up Arch-I-Tect development environment..."
 
-# Check Python version
+# Check Python version (uses 'python' to respect the active environment)
 echo "📍 Checking Python version..."
-python_version=$(python3 --version 2>&1 | awk '{print $2}')
+python_version=$(python --version 2>&1 | awk '{print $2}')
 required_version="3.11"
 
 if [[ "$(printf '%s\n' "$required_version" "$python_version" | sort -V | head -n1)" != "$required_version" ]]; then 
@@ -21,6 +21,7 @@ fi
 
 # Check Node.js version
 echo "📍 Checking Node.js version..."
+# (This part is fine, no changes needed)
 node_version=$(node --version 2>&1 | cut -d'v' -f2)
 required_node="18"
 
@@ -36,18 +37,9 @@ echo ""
 echo "🔧 Setting up backend..."
 cd backend
 
-# Create virtual environment
-echo "📦 Creating Python virtual environment..."
-python3 -m venv venv
-source venv/bin/activate
-
-# Upgrade pip
-echo "📦 Upgrading pip..."
-pip install --upgrade pip
-
-# Install dependencies
+# Install dependencies directly into the active Conda environment
 echo "📦 Installing backend dependencies..."
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 
 # Create .env file if it doesn't exist
 if [ ! -f .env ]; then
@@ -58,9 +50,6 @@ fi
 
 # Create uploads directory
 mkdir -p uploads
-
-# Deactivate virtual environment
-deactivate
 
 cd ..
 
@@ -82,9 +71,9 @@ echo ""
 echo "✅ Setup complete!"
 echo ""
 echo "📋 Next steps:"
-echo "1. Configure your backend/.env file with LLM provider credentials"
-echo "2. Start the backend: cd backend && source venv/bin/activate && python src/main.py"
-echo "3. Start the frontend: cd frontend && npm run dev"
-echo "4. Open http://localhost:5173 in your browser"
+echo "1. Configure your backend/.env file"
+echo "2. Activate your environment: conda activate arch-i-tect"
+echo "3. Start the backend: cd backend && python src/main.py"
+echo "4. Start the frontend: cd frontend && npm run dev"
 echo ""
 echo "🚀 Happy coding!"

@@ -18,7 +18,7 @@ help:
 setup:
 	@echo "Setting up development environment..."
 	@chmod +x setup.sh
-	@./setup.sh
+	@conda run -n arch-i-tect ./setup.sh
 
 install: install-backend install-frontend
 
