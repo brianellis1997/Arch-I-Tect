@@ -31,8 +31,8 @@ install-frontend:
 	@cd frontend && npm install
 
 run-backend:
-    @echo "Starting backend server..."
-    @conda run -n arch-i-tect python backend/src/main.py
+	@echo "Starting backend server..."
+	@conda run -n arch-i-tect python backend/src/main.py
 
 run-frontend:
 	@echo "Starting frontend development server..."
@@ -43,10 +43,10 @@ run:
 	@make -j 2 run-backend run-frontend
 
 test:
-    @echo "Running backend tests..."
-    @conda run -n arch-i-tect pytest backend/
-    @echo "Running frontend tests..."
-    @cd frontend && npm test
+	@echo "Running backend tests..."
+	@conda run -n arch-i-tect pytest backend/
+	@echo "Running frontend tests..."
+	@cd frontend && npm test
 
 clean:
 	@echo "Cleaning up..."
