@@ -62,11 +62,23 @@ arch-i-tect/
 
 ## 🚀 Quick Start
 
-### Prerequisites
+### Using Make (Recommended)
 
-- Python 3.11+
-- Node.js 18+
-- Ollama (optional, for local models)
+```bash
+# Clone and setup
+git clone https://github.com/yourusername/arch-i-tect.git
+cd arch-i-tect
+make setup
+
+# Configure environment
+# Edit backend/.env with your LLM provider credentials
+
+# Run the application
+make run
+
+# Or use Docker
+make docker-up
+```
 
 ### Quick Setup Script
 
