@@ -68,7 +68,23 @@ arch-i-tect/
 - Node.js 18+
 - Ollama (optional, for local models)
 
-### Backend Setup
+### Quick Setup Script
+
+```bash
+# Clone repository
+git clone https://github.com/yourusername/arch-i-tect.git
+cd arch-i-tect
+
+# Make setup script executable
+chmod +x setup.sh
+
+# Run setup script
+./setup.sh
+```
+
+### Manual Setup
+
+#### Backend Setup
 
 ```bash
 # Clone repository
@@ -202,3 +218,33 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - [ ] Template library for common architectures
 - [ ] Export to multiple IaC formats simultaneously
 - [ ] Advanced validation and security scanning
+
+## 🚀 Deployment
+
+### Docker Deployment
+
+```dockerfile
+# Dockerfile for backend
+FROM python:3.11-slim
+WORKDIR /app
+COPY backend/requirements.txt .
+RUN pip install -r requirements.txt
+COPY backend/src ./src
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
+```
+
+### Cloud Deployment Options
+
+- **Backend**: Deploy to AWS Lambda, Google Cloud Run, or Azure Functions
+- **Frontend**: Deploy to Vercel, Netlify, or AWS S3 + CloudFront
+- **Full Stack**: Deploy to Heroku, Railway, or Fly.io
+
+### Environment Variables for Production
+
+```env
+# Production settings
+API_HOST=0.0.0.0
+API_PORT=$PORT
+LLM_PROVIDER=openai  # or anthropic for production
+ALLOWED_ORIGINS=https://your-domain.com
+```
