@@ -1,8 +1,6 @@
-# 🧠 Arch-I-Tect: Cloud Diagram to Infrastructure-as-Code Generator
+# Arch-I-Tect: Cloud Diagram-to-Code Generator 🖼️➡️💻
 
-> Turn cloud architecture diagrams into Terraform or CloudFormation code using multi-modal AI.
-
-Arch-I-Tect is an AI-powered developer tool that lets you upload cloud architecture diagrams and receive fully generated Infrastructure-as-Code (IaC). It combines vision models, large language models, and an elegant frontend to help engineers go from whiteboard to deployment in seconds.
+Convert cloud architecture diagrams into Infrastructure as Code (Terraform/CloudFormation) using multi-modal AI.
 
 ## 🌟 Features
 
@@ -12,6 +10,29 @@ Arch-I-Tect is an AI-powered developer tool that lets you upload cloud architect
 - **Smart Resource Detection**: Identifies AWS/Azure/GCP resources from visual elements
 - **Code Validation**: Ensures generated code follows best practices
 - **Interactive UI**: Preview images, syntax-highlighted code output, and explanations
+
+## 🛠️ Tech Stack
+
+### Backend
+- **FastAPI** - Modern Python web framework
+- **Pydantic** - Data validation
+- **Pillow & OpenCV** - Image processing
+- **httpx** - Async HTTP client
+- **Loguru** - Structured logging
+
+### Frontend
+- **React 18** - UI framework
+- **Vite** - Build tool
+- **Tailwind CSS** - Styling
+- **Monaco Editor** - Code display
+- **Zustand** - State management
+- **React Dropzone** - File uploads
+- **Axios** - API client
+
+### AI/ML
+- **Ollama** - Local LLM support
+- **OpenAI API** - GPT-4 Vision
+- **Anthropic API** - Claude 3
 
 ## 🏗️ Architecture
 
@@ -25,9 +46,17 @@ arch-i-tect/
 │   │   └── utils/       # Helpers and validators
 │   └── tests/
 ├── frontend/            # React frontend
-│   └── src/
-│       ├── components/  # UI components
-│       └── services/    # API client
+│   ├── src/
+│   │   ├── components/  # UI components
+│   │   │   ├── UploadZone.jsx
+│   │   │   ├── ImagePreview.jsx
+│   │   │   ├── CodeViewer.jsx
+│   │   │   ├── FeedbackPanel.jsx
+│   │   │   └── GenerateControls.jsx
+│   │   ├── services/    # API client
+│   │   ├── store/       # Zustand state management
+│   │   └── App.jsx      # Main application
+│   └── public/
 └── docs/               # Documentation
 ```
 
@@ -138,6 +167,12 @@ pytest
 # Run frontend tests
 cd frontend
 npm test
+
+# Run frontend in development mode
+npm run dev
+
+# Build frontend for production
+npm run build
 ```
 
 ## 🤝 Contributing
